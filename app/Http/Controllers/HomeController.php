@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -16,7 +15,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // Exige l'authentification pour toutes les méthodes sauf 'index'
+        $this->middleware('auth')->except('index');
     }
 
     /**
@@ -24,21 +24,37 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    public function getProperties()
+    {
+        $properties = Immeuble::all(); // Assurez-vous que 'Immeuble' est bien le modèle utilisé
+    
+        // Définir un tableau avec les chemins des 4 images statiques
+        $staticImages = [
+            asset('images/1.png'),
+            asset('images/2.jpg'),
+            asset('images/3.jpg'),
+            asset('images/4.jpg')
+        ];
+    
+        // Remplacer l'image de chaque propriété par une des images statiques de manière aléatoire
+        foreach ($properties as $property) {
+            $property->image_url = $staticImages[array_rand($staticImages)];
+        }
+    
+        return response()->json($properties);
+    }
+
+    /**
+     * Display the index view.
+     */
+ 
     public function index()
     {
-        // Retrieve immeubles from the database
-        $immeubles = Immeuble::all(); // Assuming Immeuble is the model name
-    
-        if (Auth::check()) {
-            // Pass immeubles to the view for logged-in users
-            return view('home_logged_in', compact('immeubles'));
-        } else {
-            // Pass immeubles to the view for non-logged-in users
-            return view('home', compact('immeubles'));
-        }
+        // Récupérer les immeubles depuis la base de données
+        $immeubles = Immeuble::all();
 
-    
-        
-            
+        // Passer les immeubles à la vue 'index'
+        return view('home', compact('immeubles'));
+    }
 
-    }}
+}

@@ -13,11 +13,42 @@
             color: #333;
             margin: 0;
             padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .sidebar h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
         }
         .container {
             max-width: 1200px;
             margin: 20px auto;
-            padding: 20px;
         }
         h1 {
             font-size: 2.5em;
@@ -81,49 +112,59 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Statistiques des Immeubles et des Utilisateurs</h1>
-        <div class="statistics-container">
-            <!-- Statistiques des Immeubles et des Utilisateurs -->
-            <div class="statistics-row">
-                <div class="statistic-item">
-                    <strong>Total des Immeubles</strong>
-                    <p>{{ $totalImmeubles }}</p>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="{{ route('admin.home') }}">Accueil</a></li>
+            <li><a href="{{ route('admin.immeuble.index') }}">Immobilier</a></li>
+            <li><a href="{{ route('admin.statistics.index') }}">Statistiques</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="container">
+            <h1>Statistiques des Immeubles et des Utilisateurs</h1>
+            <div class="statistics-container">
+                <!-- Statistiques des Immeubles et des Utilisateurs -->
+                <div class="statistics-row">
+                    <div class="statistic-item">
+                        <strong>Total des Immeubles</strong>
+                        <p>{{ $totalImmeubles }}</p>
+                    </div>
+                    <div class="statistic-item">
+                        <strong>Total des Pièces</strong>
+                        <p>{{ $totalRooms }}</p>
+                    </div>
+                    <div class="statistic-item">
+                        <strong>Prix Moyen des Immeubles</strong>
+                        <p>{{ number_format($averagePrice, 2) }} TND</p>
+                    </div>
+                    <div class="statistic-item">
+                        <strong>Prix le Plus Élevé</strong>
+                        <p>{{ number_format($maxPrice, 2) }} TND</p>
+                    </div>
+                    <div class="statistic-item">
+                        <strong>Prix le Plus Bas</strong>
+                        <p>{{ number_format($minPrice, 2) }} TND</p>
+                    </div>
+                    <div class="statistic-item">
+                        <strong>Nombre d'Immeubles avec Climatisation</strong>
+                        <p>{{ $totalAirConditioning }}</p>
+                    </div>
+                    <div class="statistic-item">
+                        <strong>Nombre d'Immeubles avec Chauffage</strong>
+                        <p>{{ $totalHeating }}</p>
+                    </div>
+                    <div class="statistic-item">
+                        <strong>Total des Utilisateurs</strong>
+                        <p>{{ $totalUsers }}</p>
+                    </div>
                 </div>
-                <div class="statistic-item">
-                    <strong>Total des Pièces</strong>
-                    <p>{{ $totalRooms }}</p>
-                </div>
-                <div class="statistic-item">
-                    <strong>Prix Moyen des Immeubles</strong>
-                    <p>{{ number_format($averagePrice, 2) }} TND</p>
-                </div>
-                <div class="statistic-item">
-                    <strong>Prix le Plus Élevé</strong>
-                    <p>{{ number_format($maxPrice, 2) }} TND</p>
-                </div>
-                <div class="statistic-item">
-                    <strong>Prix le Plus Bas</strong>
-                    <p>{{ number_format($minPrice, 2) }} TND</p>
-                </div>
-                <div class="statistic-item">
-                    <strong>Nombre d'Immeubles avec Climatisation</strong>
-                    <p>{{ $totalAirConditioning }}</p>
-                </div>
-                <div class="statistic-item">
-                    <strong>Nombre d'Immeubles avec Chauffage</strong>
-                    <p>{{ $totalHeating }}</p>
-                </div>
-                <div class="statistic-item">
-                    <strong>Total des Utilisateurs</strong>
-                    <p>{{ $totalUsers }}</p>
-                </div>
-            </div>
 
-            <!-- Graphique pour les immeubles -->
-            <div class="chart-container">
-                <strong>Nombre d'Immeubles par Ville</strong>
-                <canvas id="cityChart"></canvas>
+                <!-- Graphique pour les immeubles -->
+                <div class="chart-container">
+                    <strong>Nombre d'Immeubles par Ville</strong>
+                    <canvas id="cityChart"></canvas>
+                </div>
             </div>
         </div>
     </div>

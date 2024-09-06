@@ -21,7 +21,7 @@ class ImmeubleController extends AdminController
         $grid->column('address', __('Address'));
         $grid->column('price', __('Price'));
         $grid->column('description', __('Description'));
-        $grid->column('picture', __('Picture'));
+        $grid->column('picture')->image();
         $grid->column('rooms', __('Rooms'));
         $grid->column('toilets', __('Toilets'));
         $grid->column('air_conditioning', __('Air Conditioning'));
@@ -47,7 +47,7 @@ class ImmeubleController extends AdminController
         $show->field('address', __('Address'));
         $show->field('price', __('Price'));
         $show->field('description', __('Description'));
-        $show->field('picture', __('Picture'));
+        $show->field('image', __('Picture'));
         $show->field('rooms', __('Rooms'));
         $show->field('toilets', __('Toilets'));
         $show->field('air_conditioning', __('Air Conditioning'));
@@ -66,20 +66,14 @@ class ImmeubleController extends AdminController
         $form->textarea('address', __('Address'));
         $form->decimal('price', __('Price'));
         $form->textarea('description', __('Description'));
-        $form->file('picture', __('Picture'));
+        $form->image('picture', __('Picture'));
         $form->number('rooms', __('Rooms'));
         $form->number('toilets', __('Toilets'));
         $form->switch('heating', __('Heating'))->default(false);
         $form->switch('air_conditioning', __('Air Conditioning'))->default(false);
         $form->select('ville', __('Ville'))->options($this->getTunisianCities());
     
-        // Handle file upload during form saving
-        $form->saving(function ($form) {
-            if (request()->hasFile('picture')) {
-                $path = request()->file('picture')->store('files', 'public');
-                $form->model()->picture = $path;
-            }
-        });
+     
     
         return $form;
     }

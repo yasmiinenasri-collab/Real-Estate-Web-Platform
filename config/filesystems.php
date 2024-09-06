@@ -46,8 +46,8 @@ return [
         
         'admin' => [
         'driver' => 'local',
-        'root' => storage_path('app/public/admin'), // ou le chemin où vous voulez stocker les fichiers
-        'url' => env('APP_URL') . '/storage/admin',
+        'root' => public_path('uploads'), // ou le chemin où vous voulez stocker les fichiers
+        'url' => env('APP_URL') . '/uploads',
         'visibility' => 'public',
     ],
 

@@ -12,6 +12,12 @@ use App\Http\Controllers\UserImmeubleController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+//Route::get('/index', [HomeController::class, 'index'])->name('index');
+
+//Route::get('/index', [HomeController::class, 'index'])->name('index');
+//Route::get('/home', [HomeController::class, 'home'])->name('home');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
@@ -19,6 +25,7 @@ Auth::routes();
 // Route::get('/', function () {
 //     return view('home'); // Utilisez le fichier home.blade.php
 // });
+
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile')->middleware('auth');
 //Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route pour afficher le formulaire d'édition du profil
@@ -40,6 +47,12 @@ Route::get('password/reset/{token}', [ResetPasswordController::class, 'showReset
 // Route pour réinitialiser le mot de passe
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-Route::get('/immeubles', [UserImmeubleController::class, 'index'])->name('user.immeubles.index');
+// Assure-toi que la route est protégée par le middleware auth
+Route::middleware(['auth'])->group(function () {
+    Route::get('/immeubles', [UserImmeubleController::class, 'index'])->name('user.immeubles.index');
+    // Ajoute d'autres routes protégées ici si nécessaire
+});
 Route::get('/immeubles/reserve/{id}', [UserImmeubleController::class, 'reserve'])->name('user.immeubles.reserve');
-Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/reserve/{id}', [UserImmeubleController::class, 'reserve'])->name('reserve');
+Route::post('/payment', [PaymentController::class, 'process'])->name('payment.process');
+Route::post('/complete-payment', [UserImmeubleController::class, 'completePayment'])->name('completePayment');
