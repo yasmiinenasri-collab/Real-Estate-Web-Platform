@@ -22,7 +22,6 @@ This is a web platform designed for the real estate industry. It allows users to
 - **Database**: MySQL
 - **Authentication**: Laravel Passport for API authentication
 - **Storage**: Local file storage (for images and documents)
-- **Deployment**: Docker (for containerization)
 
 ## Installation
 
@@ -31,18 +30,13 @@ Make sure you have the following installed on your machine:
 - [Node.js](https://nodejs.org/) (for running the frontend)
 - [PHP](https://www.php.net/) (for running the backend)
 - [MySQL](https://www.mysql.com/)
-- [Composer](https://getcomposer.org/) (for PHP dependency management)
-- [Docker](https://www.docker.com/) (optional, for containerization)
 
 ### Steps
 
 1. Clone the repository:
-   ```bash
    git clone https://github.com/yasmiinenasri-collab/Real-Estate-Web-Platform.git
-   cd Real-Estate-Web-Platform
+   cd Tunisiemaison-main
 2.Install frontend dependencies:
-
-
 cd frontend
 npm install
 
@@ -51,10 +45,8 @@ cd backend
 composer install
 
 4.Set up the environment configuration:
-
 Copy .env.example to .env:
 cp .env.example .env
-
 Update the .env file with your database and other configurations.
 
 5.Run migrations:
@@ -73,19 +65,19 @@ For Laravel backend, make sure you have the required environment and run:
 php artisan serve
 
 ##Usage
-**Users:**
+- **Users:**
 
 Visit the homepage to browse available properties.
 Register and log in to manage your profile and bookings.
 Use the contact form to get in touch with property owners.
-**Admins:**
+- **Admins:**
 
 Log in to the admin panel to manage properties, users, and payments.
 Monitor statistics and manage user reservations.
 Contributing
 We welcome contributions! If you'd like to contribute, follow these steps:
 
-##Fork the repository.
+###Fork the repository.
 1.Create a new branch for your feature or bugfix (git checkout -b feature-name).
 2.Commit your changes (git commit -m 'Add new feature').
 3.Push to your fork (git push origin feature-name).
