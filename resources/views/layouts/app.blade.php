@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Tunisiemaison</title> <!-- Titre de l'onglet du navigateur -->
+    <title>Tunisiemaison</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -16,18 +16,18 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <style>
-         .navbar-brand img {
+        .navbar-brand img {
             height: 50px; /* Ajustez la hauteur du logo */
             width: auto;  /* Conserver le ratio d'aspect */
         }
-</style>
+    </style>
 </head>
 
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-            <a class="navbar-brand" href="{{ url('/home') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
                     <img src="{{ asset('images/M.png') }}" alt="Logo">
                     Tunisiemaison
                 </a>
@@ -56,6 +56,17 @@
                                 </li>
                             @endif
                         @else
+                            <!-- Ajout du bouton Immeubles ici, visible après login -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/immeubles') }}">Immeubles</a>
+                            </li>
+
+                            <!-- Ajout du bouton Profil -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('profile') }}">Profil</a>
+                            </li>
+
+                            <!-- Bouton Déconnexion -->
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

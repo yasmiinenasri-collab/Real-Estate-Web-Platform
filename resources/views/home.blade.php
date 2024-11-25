@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Tunisiemaison - Accueil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <style>
@@ -64,19 +66,124 @@
             padding: 10px;
             border-radius: 5px;
         }
-        .agency-description {
-            padding: 20px;
-            background-color: #e9ecef;
-            border-radius: 8px;
-            text-align: center;
+   /* Aligner légèrement à gauche la section "À propos de Tunisiemaison" */
+.agency-description {
+    background-color: #f8f9fa;
+    padding: 40px 0;
+    margin-left: 10px; /* Ajouter une marge à gauche */
+}
+
+.immeubles-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espace entre les cartes */
+    justify-content: space-around; /* Centre les cartes et ajoute de l'espace autour */
+}
+
+.immeuble-card {
+    width: 30%; /* Ajustez la taille selon vos besoins */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.immeuble-card img {
+    width: 100%;
+    height: auto; /* Conserve les proportions de l'image */
+}
+
+.immeuble-card .card-body {
+    padding: 15px;
+}
+
+.immeuble-card h3 {
+    margin-top: 0;
+    font-size: 1.25rem;
+}
+
+.immeuble-card p {
+    margin: 0.5rem 0;
+}
+
+.btn-reserve {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.btn-reserve:hover {
+    background-color: #0056b3;
+}
+
+.immeuble-card:hover {
+    transform: scale(1.05); /* Agrandit légèrement la carte au survol */
+}
+        .footer {
+            background-color: white;
+            color: Black;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-        .agency-description h2 {
-            margin-bottom: 20px;
-        }
-        .agency-description p {
-            font-size: 1.1rem;
+        .footer p {
+            margin: 0;
             line-height: 1.6;
         }
+        .footer-description {
+            max-width: 600px;
+            flex: 1;
+        }
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            min-width: 250px;
+        }
+        .footer-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .footer-icons a {
+            color: Black;
+            transition: color 0.3s ease;
+        }
+        .footer-icons a:hover {
+            color: #007bff;
+        }
+        .footer-contact p {
+            margin-bottom: 5px;
+        }
+        .footer-contact a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+        .footer-divider {
+            height: 1px;
+            background-color: #444;
+            margin: 20px 0;
+            width: 100%;
+        }
+        .footer-copyright {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 10px;
+        }
+      
     </style>
 </head>
 <body>
@@ -167,35 +274,69 @@
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
-
-            <!-- Description de l'agence -->
             <section class="agency-description mt-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
                 <h2>À propos de Tunisiemaison</h2>
                 <p>Chez Tunisiemaison, nous sommes spécialisés dans la vente et la location de maisons à travers la Tunisie. Nous nous engageons à offrir des services de haute qualité pour vous aider à trouver le bien immobilier qui correspond à vos besoins. Que vous cherchiez une maison à acheter ou à louer, notre équipe est là pour vous guider à chaque étape du processus.</p>
                 <p>Notre expertise et notre connaissance approfondie du marché local nous permettent de vous offrir les meilleures options disponibles. Nous mettons un point d'honneur à satisfaire nos clients en leur fournissant des informations précises et des conseils personnalisés.</p>
                 <p>Découvrez dès maintenant notre large sélection d'immeubles et trouvez la maison de vos rêves avec Tunisiemaison.</p>
-            </section>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ asset('images/7.jpg') }}" alt="Image de l'agence" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</section>
 
-            <!-- Liste des immeubles -->
-            @if(isset($immeubles) && $immeubles->count() > 0)
-                <div class="immeubles-list mt-5">
-                    @foreach ($immeubles as $immeuble)
-                        <div class="immeuble-card">
-                            <img src="{{ asset('storage/' . $immeuble->picture) }}" alt="Image de {{ $immeuble->name }}">
-                            <div class="card-body">
-                                <h3>{{ $immeuble->name }}</h3>
-                                <p><strong>Adresse :</strong> {{ $immeuble->address }}</p>
-                                <p><strong>Prix :</strong> {{ number_format($immeuble->price, 2) }} TND</p>
-                                <p>{{ $immeuble->description }}</p>
-                                <a href="{{ route('reserve', $immeuble->id) }}" class="btn-reserve">Réserver</a>
-                            </div>
-                        </div>
-                    @endforeach
+@if(isset($immeubles) && $immeubles->count() > 0)
+    <div class="immeubles-list mt-5">
+        @foreach ($immeubles->take(3) as $immeuble)
+            <div class="immeuble-card">
+            @if($immeuble->picture)
+                        <img src="{{ asset('uploads/' . $immeuble->picture) }}" class="card-img-top" alt="{{ $immeuble->name }}">
+                    @else
+                        <img src="{{ asset('images/placeholder.png') }}" class="card-img-top" alt="Placeholder">
+                    @endif                <div class="card-body">
+                    <h3>{{ $immeuble->name }}</h3>
+                    <p><strong>Adresse :</strong> {{ $immeuble->address }}</p>
+                    <p><strong>Prix :</strong> {{ number_format($immeuble->price, 2) }} TND</p>
+                    <p>{{ $immeuble->description }}</p>
+                    <a href="{{ route('reserve', $immeuble->id) }}" class="btn-reserve">Réserver</a>
                 </div>
-            @else
-                <p class="text-center">Aucun immeuble trouvé.</p>
-            @endif
+            </div>
+        @endforeach
+    </div>
+@else
+    <p class="text-center">Aucun immeuble trouvé.</p>
+@endif
         </main>
+        <footer class="footer">
+            <div class="footer-description">
+                <p>
+                    <strong>Tunisiemaison</strong> vous accompagne à chaque étape de votre recherche de maison, offrant une large sélection de biens à travers la Tunisie.
+                    Que vous cherchiez à acheter ou à louer, notre équipe dévouée est là pour vous fournir des conseils personnalisés et un service exceptionnel.
+                    Découvrez notre sélection et trouvez la maison de vos rêves avec Tunisiemaison.
+                </p>
+            </div>
+            <div class="footer-contact">
+                <p>Contactez-nous :</p>
+                <p><a href="mailto:contact@tunisiemaison.com">contact@tunisiemaison.com</a></p>
+                <div class="footer-icons">
+                    <a href="https://www.facebook.com/tunisiemaison" target="_blank" aria-label="Facebook">
+                        <i class="fab fa-facebook fa-2x"></i>
+                    </a>
+                    <a href="https://www.instagram.com/tunisiemaison" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram fa-2x"></i>
+                    </a>
+                </div>
+                <div class="footer-divider"></div>
+                <div class="footer-copyright">
+                    © 2024 Tunisiemaison. Tous droits réservés.
+                </div>
+            </div>
+        </footer>
     </div>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

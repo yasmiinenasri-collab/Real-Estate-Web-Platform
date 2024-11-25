@@ -51,8 +51,7 @@ class HomeController extends Controller
     public function index()
     {
         // Récupérer les immeubles depuis la base de données
-        $immeubles = Immeuble::all();
-
+        $immeubles = Immeuble::take(3)->get();
         // Passer les immeubles à la vue 'index'
         return view('home', compact('immeubles'));
     }

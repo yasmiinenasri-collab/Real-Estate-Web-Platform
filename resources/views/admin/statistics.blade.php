@@ -147,44 +147,70 @@
                         <p>{{ number_format($minPrice, 2) }} TND</p>
                     </div>
                     <div class="statistic-item">
-                        <strong>Nombre d'Immeubles avec Climatisation</strong>
+                        <strong>Immeubles avec Climatisation</strong>
                         <p>{{ $totalAirConditioning }}</p>
                     </div>
                     <div class="statistic-item">
-                        <strong>Nombre d'Immeubles avec Chauffage</strong>
+                        <strong>Immeubles avec Chauffage</strong>
                         <p>{{ $totalHeating }}</p>
                     </div>
-                    <div class="statistic-item">
-                        <strong>Total des Utilisateurs</strong>
-                        <p>{{ $totalUsers }}</p>
-                    </div>
                 </div>
-
-                <!-- Graphique pour les immeubles -->
-                <div class="chart-container">
-                    <strong>Nombre d'Immeubles par Ville</strong>
-                    <canvas id="cityChart"></canvas>
-                </div>
+            </div>
+            
+            <!-- Graphique des Immeubles par Ville -->
+            <div class="chart-container">
+                <canvas id="cityChart"></canvas>
+            </div>
+            
+            <!-- Graphique des Utilisateurs par Mois -->
+            <div class="chart-container">
+                <canvas id="userChart"></canvas>
             </div>
         </div>
     </div>
 
     <script>
-        // Graphique des immeubles
+        // Graphique des Immeubles par Ville
         var ctx = document.getElementById('cityChart').getContext('2d');
         var cityChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: @json($cities),
+                labels: {!! json_encode($cities) !!},
                 datasets: [{
                     label: 'Nombre d\'Immeubles',
-                    data: @json($cityCounts),
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    data: {!! json_encode($cityCounts) !!},
+                    backgroundColor: '#007bff',
+                    borderColor: '#0056b3',
                     borderWidth: 1
                 }]
             },
             options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Graphique des Utilisateurs par Mois
+        var userCtx = document.getElementById('userChart').getContext('2d');
+        var userChart = new Chart(userCtx, {
+            type: 'line',
+            data: {
+                labels: {!! json_encode($monthlyUserCounts->pluck('month')) !!},
+                datasets: [{
+                    label: 'Nombre d\'Utilisateurs par Mois',
+                    data: {!! json_encode($monthlyUserCounts->pluck('count')) !!},
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -195,3 +221,4 @@
     </script>
 </body>
 </html>
+

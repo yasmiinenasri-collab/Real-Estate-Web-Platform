@@ -12,31 +12,68 @@ class UserImmeubleController extends Controller
     public function index(Request $request)
     {
         $query = Immeuble::query();
-
-        if ($request->has('search')) {
+    
+        // Recherche par ville
+        if ($request->has('search') && !empty($request->input('search'))) {
             $search = $request->input('search');
             $query->where('ville', 'like', "%{$search}%");
         }
-
-        $immeubles = $query->get();
+    
+        // Filtrer par prix minimum
+        if ($request->has('price_min') && is_numeric($request->input('price_min'))) {
+            $price_min = (float) $request->input('price_min');
+            $query->where('price', '>=', $price_min);
+        }
+    
+        // Filtrer par prix maximum
+        if ($request->has('price_max') && is_numeric($request->input('price_max'))) {
+            $price_max = (float) $request->input('price_max');
+            $query->where('price', '<=', $price_max);
+        }
+    
+        // Filtrer par nombre de chambres
+        if ($request->has('rooms') && is_numeric($request->input('rooms'))) {
+            $rooms = (int) $request->input('rooms');
+            $query->where('rooms', '>=', $rooms);
+        }
+    
+        // Tri des résultats
+        if ($request->has('sort')) {
+            $sort = $request->input('sort');
+            if ($sort == 'price_asc') {
+                $query->orderBy('price', 'asc');
+            } elseif ($sort == 'price_desc') {
+                $query->orderBy('price', 'desc');
+            }
+        }
+    
+        // Pagination des résultats
+        $immeubles = $query->paginate(6); // 6 immeubles par page
         return view('index', compact('immeubles'));
     }
+    
 
     public function reserve($id)
     {
         $immeuble = Immeuble::find($id);
-
+    
         if ($immeuble) {
-            $amount = $immeuble->price * 100; // En centimes
-            return view('payment', [
-                'client_secret' => $this->createPaymentIntent($amount),
-                'immeuble_id' => $id
+            $client_secret = $this->createPaymentIntent($immeuble->price * 100); // Le prix doit être en centimes
+    
+            return view('paymentForm', [
+                'immeuble' => $immeuble,
+                'client_secret' => $client_secret,
             ]);
         }
-
-        return redirect()->route('index')->with('error', 'Property not found!');
+    
+        return redirect()->route('user.immeubles.index')->with('error', 'Property not found!');
     }
 
+    public function completePayment()
+    {
+        return view('completePayment'); // Assure-toi que la vue existe
+    }
+    
     protected function createPaymentIntent($amount)
     {
         Stripe::setApiKey(config('services.stripe.secret'));

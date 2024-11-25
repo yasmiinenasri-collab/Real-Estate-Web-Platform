@@ -1,11 +1,12 @@
 <?php
 
-namespace  App\Admin\Controllers;
+namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Immeuble; // Assurez-vous d'importer le modèle Immeuble
+use App\Models\Immeuble;
+use DB;
 
 class StatisticController extends Controller
 {
@@ -35,7 +36,7 @@ class StatisticController extends Controller
         $totalImmeubles = Immeuble::count(); // Nombre total d'immeubles
     
         // Nombre d'immeubles par ville
-        $immeublesByCity = Immeuble::select('ville', \DB::raw('count(*) as total'))
+        $immeublesByCity = Immeuble::select('ville', DB::raw('count(*) as total'))
             ->groupBy('ville')
             ->pluck('total', 'ville')
             ->toArray();
@@ -68,5 +69,4 @@ class StatisticController extends Controller
             'cityCounts' => $cityCounts,
         ]);
     }
-
 }
