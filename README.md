@@ -52,13 +52,11 @@ Update .env with your database details.
     php artisan migrate
 
 6. Start the application:
-- **Frontend**:
-    - ```bash
+- **Frontend**:  - ```bash
     - cd frontend
     - npm run dev
 
-- **Backend**:
-    - ```bash
+- **Backend**: - ```bash
     - php artisan serve
 ### Contributing
 1. Fork the repository.
